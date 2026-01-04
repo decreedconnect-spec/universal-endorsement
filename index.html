@@ -11,6 +11,8 @@
             --true-black: #000000;
             --gold: #D4AF37;
             --light-blue: #1A3B6B;
+            --dark-gold: #B8860B;
+            --dark-blue: #081830;
             --transition: all 0.3s ease;
         }
         
@@ -18,7 +20,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
         }
         
         body {
@@ -26,460 +28,634 @@
             color: var(--pure-white);
             line-height: 1.6;
             overflow-x: hidden;
-            background-image: url('https://i.imgur.com/dI8HVfj.jpeg');
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
+        }
+        
+        /* Navigation */
+        .nav-container {
+            background-color: rgba(10, 31, 68, 0.95);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid var(--gold);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .nav-logo {
+            height: 50px;
+            filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.5));
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: var(--pure-white);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            padding: 8px 15px;
+            border-radius: 4px;
+        }
+        
+        .nav-links a:hover {
+            color: var(--gold);
+            background-color: rgba(212, 175, 55, 0.1);
         }
         
         .translator {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         select {
             background-color: var(--studio-blue);
             color: var(--pure-white);
             padding: 8px 15px;
-            border: 1px solid var(--gold);
+            border: 2px solid var(--gold);
             border-radius: 4px;
             font-size: 14px;
             cursor: pointer;
+            font-weight: bold;
         }
         
-        .overlay {
-            background-color: rgba(10, 31, 68, 0.9);
+        /* Hero Section */
+        .hero {
+            background-image: url('https://i.imgur.com/dI8HVfj.jpeg');
+            background-size: cover;
+            background-position: center;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            padding: 100px 20px 60px;
+            position: relative;
         }
         
-        header {
-            padding: 30px 20px;
+        .hero-overlay {
+            background-color: rgba(10, 31, 68, 0.85);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
             text-align: center;
-            border-bottom: 1px solid var(--gold);
         }
         
-        .logo-container {
-            margin-bottom: 20px;
-        }
-        
-        .logo {
-            max-width: 280px;
-            height: auto;
-            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
+        .hero-logo {
+            max-width: 400px;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.7));
         }
         
         h1 {
-            font-size: 2.6rem;
+            font-size: 3rem;
             color: var(--gold);
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+            font-weight: 700;
+            letter-spacing: 1px;
         }
         
         h2 {
-            font-size: 2rem;
+            font-size: 2.2rem;
             color: var(--gold);
             margin-bottom: 20px;
+            font-weight: 600;
         }
         
         h3 {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             color: var(--gold);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            font-weight: 600;
         }
         
         .subheadline {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             max-width: 900px;
-            margin: 0 auto 30px;
+            margin: 0 auto 40px;
             line-height: 1.8;
         }
         
-        .section-heading {
-            text-align: center;
-            margin: 40px 0 20px;
+        .highlight {
+            color: var(--gold);
+            font-weight: bold;
         }
         
-        .main-content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 30px 20px;
-            gap: 40px;
+        .cta-btn {
+            display: inline-block;
+            background: linear-gradient(to right, var(--gold), var(--dark-gold));
+            color: var(--true-black);
+            padding: 18px 35px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.5);
+            background: linear-gradient(to right, #F1C40F, var(--gold));
+        }
+        
+        /* Main Content Sections */
+        .section {
+            padding: 80px 20px;
             max-width: 1200px;
             margin: 0 auto;
         }
         
-        .form-section {
-            flex: 1;
-            min-width: 400px;
-            background-color: rgba(0, 0, 0, 0.7);
-            padding: 30px;
-            border-radius: 10px;
-            border: 2px solid var(--gold);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-        
-        .form-heading {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-        
-        .form-logo {
-            width: 50px;
-            height: auto;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-        
-        input, select {
-            width: 100%;
-            padding: 12px 15px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 4px;
-            color: var(--pure-white);
-            font-size: 16px;
-            transition: var(--transition);
-        }
-        
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--gold);
-            box-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
-        }
-        
-        .submit-btn {
-            background: linear-gradient(to right, var(--gold), #F1C40F);
-            color: var(--true-black);
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
-        }
-        
-        .image-slider-section {
-            flex: 1;
-            min-width: 400px;
-        }
-        
-        .slider-container {
-            position: relative;
-            width: 100%;
-            height: 450px;
-            overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            margin-bottom: 30px;
-        }
-        
-        .slides {
-            display: flex;
-            transition: transform 0.5s ease;
-            height: 100%;
-        }
-        
-        .slide {
-            min-width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-        }
-        
-        .slider-nav {
-            position: absolute;
-            bottom: 15px;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .nav-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.5);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .nav-dot.active {
-            background-color: var(--gold);
-        }
-        
-        .video-section {
-            width: 100%;
-            margin-top: 30px;
+        .section-heading {
             text-align: center;
-        }
-        
-        .video-container {
+            margin-bottom: 50px;
             position: relative;
-            width: 100%;
-            margin: 0 auto;
         }
         
-        .video-container iframe {
-            width: 100%;
-            height: 400px;
-            border-radius: 10px;
-            border: 2px solid var(--gold);
+        .section-heading:after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: var(--gold);
+            margin: 15px auto;
+            border-radius: 2px;
         }
         
-        .benefits-section {
-            width: 100%;
-            margin-top: 40px;
-            padding: 30px;
-            background-color: rgba(0, 0, 0, 0.6);
-            border-radius: 10px;
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
         }
         
-        .benefits-grid {
+        .about-image {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Partners Section */
+        .partners-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .partner-card {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 25px;
+            border-radius: 10px;
+            border-top: 4px solid var(--light-blue);
+            transition: var(--transition);
+        }
+        
+        .partner-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .partner-card h4 {
+            color: var(--gold);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        /* Benefits Section */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
         }
         
         .benefit-item {
-            background-color: rgba(10, 31, 68, 0.7);
-            padding: 20px;
-            border-radius: 8px;
-            border-left: 4px solid var(--gold);
+            background: linear-gradient(rgba(10, 31, 68, 0.8), rgba(0, 0, 0, 0.6));
+            padding: 30px;
+            border-radius: 10px;
+            border-left: 5px solid var(--gold);
+            transition: var(--transition);
+        }
+        
+        .benefit-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
         }
         
         .benefit-item h4 {
             color: var(--gold);
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
         }
         
-        footer {
-            background-color: rgba(0, 0, 0, 0.9);
-            padding: 30px 20px;
+        /* Testimonials */
+        .testimonials-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 30px;
+            padding: 20px 0;
+            scroll-behavior: smooth;
+        }
+        
+        .testimonial-card {
+            min-width: 350px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            border-radius: 10px;
+            border-left: 4px solid var(--gold);
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+        
+        .testimonial-author {
+            font-weight: bold;
+            color: var(--gold);
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(rgba(10, 31, 68, 0.9), rgba(0, 0, 0, 0.8));
             text-align: center;
-            margin-top: 50px;
-            border-top: 1px solid var(--gold);
+            padding: 80px 20px;
         }
         
-        .footer-content {
-            max-width: 800px;
-            margin: 0 auto;
-            font-size: 0.9rem;
-            opacity: 0.8;
-            line-height: 1.6;
+        .form-container {
+            max-width: 600px;
+            margin: 40px auto 0;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 40px;
+            border-radius: 12px;
+            border: 2px solid var(--gold);
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: var(--pure-white);
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 14px 18px;
+            background-color: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            color: var(--pure-white);
+            font-size: 16px;
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
         }
         
         .success-message {
             display: none;
-            background-color: rgba(0, 100, 0, 0.8);
+            background: rgba(0, 100, 0, 0.8);
             color: var(--pure-white);
             padding: 20px;
             border-radius: 8px;
             margin-top: 20px;
             text-align: center;
-            border-left: 4px solid #4CAF50;
+            border-left: 5px solid #4CAF50;
         }
         
+        /* Footer */
+        footer {
+            background-color: rgba(0, 0, 0, 0.95);
+            padding: 50px 20px 30px;
+            text-align: center;
+            border-top: 3px solid var(--gold);
+        }
+        
+        .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .footer-links a {
+            color: var(--pure-white);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--gold);
+        }
+        
+        /* Responsive */
         @media (max-width: 768px) {
+            .nav-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-links {
+                gap: 15px;
+            }
+            
             h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
             
             h2 {
                 font-size: 1.8rem;
             }
             
-            .main-content {
-                flex-direction: column;
-            }
-            
-            .form-section, .image-slider-section {
-                min-width: 100%;
-            }
-            
-            .slider-container {
-                height: 300px;
-            }
-            
-            .video-container iframe {
-                height: 300px;
-            }
-            
-            .benefits-grid {
+            .about-content {
                 grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .testimonial-card {
+                min-width: 300px;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 15px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="translator">
-        <select id="language-selector">
-            <option value="en">English</option>
-            <option value="es">Español</option>
-            <option value="fr">Français</option>
-            <option value="de">Deutsch</option>
-        </select>
-    </div>
-    
-    <div class="overlay">
-        <header>
-            <div class="logo-container">
-                <img src="https://i.imgur.com/x2v08fp.png" alt="Universal Studios Logo" class="logo">
+    <!-- Navigation -->
+    <nav class="nav-container">
+        <div class="nav-content">
+            <img src="https://i.imgur.com/x2v08fp.png" alt="Universal Studios Logo" class="nav-logo">
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#partners">Partners</a>
+                <a href="#benefits">Benefits</a>
+                <a href="#testimonials">Testimonials</a>
+                <a href="#apply">Apply</a>
             </div>
-            <h1 data-lang="en">Join 5,000+ Professionals With Credible Endorsements Partnership</h1>
-            <div class="subheadline" data-lang="en">
-                <p><strong>Endorsement & Partnership Licence</strong></p>
-                <p>Secure verified endorsements from respected colleagues and industry leaders through a formal partnership licence. This programme strengthens professional credibility, elevates personal brand authority, and positions participants for higher-value opportunities. Designed to differentiate you in competitive markets, it offers structured recognition that signals trust, excellence, and industry relevance.</p>
-            </div>
-        </header>
-        
-        <div class="main-content">
-            <div class="form-section">
-                <div class="form-heading">
-                    <img src="https://i.imgur.com/x2v08fp.png" alt="Universal Studios Logo" class="form-logo">
-                    <h3 data-lang="en">Claim Your Free Endorsement Partnership Licence</h3>
-                </div>
-                <form id="endorsement-form">
-                    <div class="form-group">
-                        <label for="name" data-lang="en">Full Name</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email" data-lang="en">Email Address</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="industry" data-lang="en">Industry</label>
-                        <select id="industry" name="industry" required>
-                            <option value="entertainment" data-lang="en">Entertainment World</option>
-                            <option value="film-production" data-lang="en">Film Production</option>
-                            <option value="media" data-lang="en">Media & Broadcasting</option>
-                            <option value="marketing" data-lang="en">Marketing & Promotion</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="goals" data-lang="en">Goals</label>
-                        <select id="goals" name="goals" required>
-                            <option value="earn-from-home" data-lang="en">Earn from Home (Profit Revenue Portfolio)</option>
-                            <option value="professional-growth" data-lang="en">Professional Growth</option>
-                            <option value="industry-recognition" data-lang="en">Industry Recognition</option>
-                            <option value="networking" data-lang="en">Networking Opportunities</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="submit-btn">
-                        <span data-lang="en">Get My Free Endorsement Kit →</span>
-                    </button>
-                </form>
-                <div id="success-message" class="success-message" data-lang="en">
-                    Thank you! Your endorsement request has been received. Check your email for next steps within 24 hours.
-                </div>
-            </div>
-            
-            <div class="image-slider-section">
-                <h2 class="section-heading" data-lang="en">Universal Studios Legacy</h2>
-                <div class="slider-container">
-                    <div class="slides">
-                        <div class="slide" style="background-image: url('https://i.imgur.com/L3fGXtk.jpeg')"></div>
-                        <div class="slide" style="background-image: url('https://i.imgur.com/tcX0B1B.jpeg')"></div>
-                        <div class="slide" style="background-image: url('https://i.imgur.com/N0Hw9Yo.jpeg')"></div>
-                        <div class="slide" style="background-image: url('https://i.imgur.com/ua9c1Vw.jpeg')"></div>
-                        <div class="slide" style="background-image: url('https://i.imgur.com/LRYNmeK.jpg')"></div>
-                    </div>
-                    <div class="slider-nav">
-                        <div class="nav-dot active" data-slide="0"></div>
-                        <div class="nav-dot" data-slide="1"></div>
-                        <div class="nav-dot" data-slide="2"></div>
-                        <div class="nav-dot" data-slide="3"></div>
-                        <div class="nav-dot" data-slide="4"></div>
-                    </div>
-                </div>
-                
-                <div class="video-section">
-                    <h3 data-lang="en">Welcome to Our Partnership Programme</h3>
-                    <div class="video-container">
-                        <iframe src="https://www.youtube.com/embed/XZ_qrsUibCI" title="Universal Studios Partnership Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                </div>
-                
-                <div class="benefits-section">
-                    <h3 data-lang="en">Programme Benefits</h3>
-                    <div class="benefits-grid">
-                        <div class="benefit-item">
-                            <h4 data-lang="en">Enhanced Credibility</h4>
-                            <p data-lang="en">Gain verified endorsements that strengthen your professional reputation.</p>
-                        </div>
-                        <div class="benefit-item">
-                            <h4 data-lang="en">Higher-Value Opportunities</h4>
-                            <p data-lang="en">Access exclusive projects and partnerships with premium compensation.</p>
-                        </div>
-                        <div class="benefit-item">
-                            <h4 data-lang="en">Brand Authority</h4>
-                            <p data-lang="en">Position yourself as an industry leader with Universal Studios' backing.</p>
-                        </div>
-                        <div class="benefit-item">
-                            <h4 data-lang="en">Market Differentiation</h4>
-                            <p data-lang="en">Stand out in competitive markets with structured recognition.</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="translator">
+                <select id="language-selector">
+                    <option value="en">English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
+                </select>
             </div>
         </div>
-        
-        <footer>
-            <div class="footer-content">
-                <p>© 2024 Universal Studios. All rights reserved.</p>
-                <p>Protected under applicable international copyright, trademark, and intellectual property laws.</p>
-                <p>Data is collected and processed in compliance with relevant data protection regulations, including GDPR, UK GDPR, and other applicable privacy and consumer protection laws.</p>
-                <p>Contact: encrypted.mail@universalstudios.com</p>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <img src="https://i.imgur.com/x2v08fp.png" alt="Universal Studios Logo" class="hero-logo">
+            <h1 id="main-headline">Universal Studios Professional Partnership Programme</h1>
+            <p class="subheadline">Join 10,000+ industry professionals in our exclusive endorsement partnership programme. Gain verified credibility, access premium opportunities, and elevate your career with Universal Studios backing.</p>
+            <a href="#apply" class="cta-btn">Apply Now</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="section-heading">
+            <h2>About the Programme</h2>
+        </div>
+        <div class="about-content">
+            <div>
+                <h3>Transform Your Professional Trajectory</h3>
+                <p>Universal Studios brings over a century of entertainment excellence to our Professional Partnership Programme. We've carefully designed this initiative to provide industry professionals with the recognition, connections, and opportunities needed to excel in today's competitive landscape.</p>
+                <p>Through verified endorsements, structured mentorship, and access to exclusive projects, our partners gain the credibility that sets them apart. Whether you're in film production, marketing, creative development, or broadcasting, this programme offers tangible benefits that accelerate career growth.</p>
+                <p>Our partnership is more than just a credential - it's an active collaboration with Hollywood's most respected studio, opening doors to global opportunities and premium compensation structures.</p>
             </div>
-        </footer>
-    </div>
+            <div>
+                <img src="https://i.imgur.com/x3y7GdF.jpeg" alt="Universal Studios Backlot" class="about-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners Section -->
+    <section id="partners" class="section" style="background-color: rgba(0,0,0,0.3);">
+        <div class="section-heading">
+            <h2>Our Global Network</h2>
+            <p>Universal Studios maintains strategic partnerships with leading industry authorities worldwide</p>
+        </div>
+        <div class="partners-grid">
+            <div class="partner-card">
+                <h4>🇺🇸 U.S. Government Agencies</h4>
+                <p>California Film Commission, U.S. Department of Commerce, Department of Defense Film Support, National Endowment for the Arts</p>
+            </div>
+            <div class="partner-card">
+                <h4>🎬 State Film Authorities</h4>
+                <p>Georgia Film Office, New York State Film Office, Louisiana Entertainment, International Film Commissions</p>
+            </div>
+            <div class="partner-card">
+                <h4>🌍 International Bodies</h4>
+                <p>British Film Institute (UK), Telefilm Canada, Screen Australia, European Union MEDIA Programme</p>
+            </div>
+            <div class="partner-card">
+                <h4>🏛️ Regulatory Entities</h4>
+                <p>Federal Communications Commission, International Trade Associations, Cultural Exchange Programmes</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits" class="section">
+        <div class="section-heading">
+            <h2>Programme Benefits</h2>
+            <p>Gain exclusive advantages that elevate your professional standing</p>
+        </div>
+        <div class="benefits-grid">
+            <div class="benefit-item">
+                <h4>🏆 Enhanced Credibility</h4>
+                <p>Verified Universal Studios endorsement strengthens your professional reputation and market position.</p>
+            </div>
+            <div class="benefit-item">
+                <h4>💼 Premium Opportunities</h4>
+                <p>Access exclusive projects, partnerships, and collaborations with premium compensation.</p>
+            </div>
+            <div class="benefit-item">
+                <h4>🌍 Global Recognition</h4>
+                <p>Position yourself as an industry leader with Universal Studios' worldwide brand recognition.</p>
+            </div>
+            <div class="benefit-item">
+                <h4>🚀 Career Acceleration</h4>
+                <p>Strategic networking and mentorship opportunities that accelerate professional growth.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="section" style="background-color: rgba(0,0,0,0.3);">
+        <div class="section-heading">
+            <h2>Success Stories</h2>
+            <p>Hear from professionals who transformed their careers through our partnership programme</p>
+        </div>
+        <div class="testimonials-container">
+            <div class="testimonial-card">
+                <p class="testimonial-text">"The Universal Studios partnership completely transformed my career trajectory. The endorsement opened doors to projects I never thought possible, and the network I've built is invaluable."</p>
+                <p class="testimonial-author">- Sarah Johnson, Film Producer</p>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">"As a marketing professional, the credibility gained through this programme has been instrumental in securing high-value clients and partnerships globally."</p>
+                <p class="testimonial-author">- Michael Chen, Marketing Director</p>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">"The mentorship and industry insights provided through Universal Studios have been worth more than any certification. It's a game-changer for creative professionals."</p>
+                <p class="testimonial-author">- Elena Rodriguez, Creative Director</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="apply" class="cta-section">
+        <div class="section-heading">
+            <h2>Ready to Elevate Your Career?</h2>
+            <p>Join thousands of professionals who have transformed their careers with Universal Studios</p>
+        </div>
+        <div class="form-container">
+            <form id="partnership-form">
+                <div class="form-group">
+                    <label for="full-name">Full Name</label>
+                    <input type="text" id="full-name" name="full-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="industry">Industry</label>
+                    <select id="industry" name="industry" required>
+                        <option value="entertainment">Entertainment & Media</option>
+                        <option value="film-production">Film Production</option>
+                        <option value="broadcasting">Broadcasting</option>
+                        <option value="marketing">Marketing & Promotion</option>
+                        <option value="creative">Creative Arts</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="experience">Years of Experience</label>
+                    <select id="experience" name="experience" required>
+                        <option value="0-2">0-2 years</option>
+                        <option value="3-5">3-5 years</option>
+                        <option value="6-10">6-10 years</option>
+                        <option value="10+">10+ years</option>
+                    </select>
+                </div>
+                <button type="submit" class="cta-btn" style="width: 100%; margin-top: 20px;">Submit Application</button>
+            </form>
+            <div id="success-message" class="success-message">
+                Thank you! Your application has been received. Our team will review it and contact you within 48 hours.
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <img src="https://i.imgur.com/x2v08fp.png" alt="Universal Studios Logo" style="height: 60px; margin-bottom: 20px;">
+            <p>© 2024 Universal Studios. All Rights Reserved.</p>
+            <p>Universal Studios™ is a trademark of Universal Studios.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact Us</a>
+                <a href="#">Careers</a>
+            </div>
+            <p>Protected under applicable international copyright, trademark, and intellectual property laws.</p>
+            <p>Official Partnership Inquiries: global.partnerships@universalstudios.com</p>
+        </div>
+    </footer>
 
     <script>
-        // Translation functionality
-        const translations = {
-            en: {
-                headline: "Join 5,000+ Professionals With Credible Endorsements Partnership",
-                subheadline: {
-                    title: "Endorsement & Partnership Licence",
-                    content: "Secure verified endorsements from respected colleagues and industry leaders through a formal partnership licence. This programme strengthens professional credibility, elevates personal brand authority, and positions participants for higher-value opportunities. Designed to differentiate you in competitive markets, it offers structured recognition that signals trust, excellence, and industry relevance."
-                },
-                formHeading: "Claim Your Free Endorsement Partnership Licence",
-                nameLabel: "Full Name",
-                emailLabel: "Email Address",
-                industryLabel: "Industry",
-                industryOptions: {
-                    entertainment: "Entertainment World",
-                    filmProduction: "Film Production",
-                    media: "Media & Broadcasting",
-                    marketing: "Marketing & Promotion"
-                },
-                goalsLabel: "
+        // Smooth scrolling for navigation
+        document.querySelectorAll('.nav-links a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Form submission
+        document.getElementById('partnership-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.getElementById('success-message').style.display = 'block';
+            this.reset();
+            
+            setTimeout(() => {
+                document.getElementById('success-message').style.display = 'none';
+            }, 5000);
+        });
+
+        // Language selector functionality (simplified)
+        document.getElementById('language-selector').addEventListener('change', function(e) {
+            alert('Language changed to: ' + e.target.options[e.target.selectedIndex].text);
+            // In a real implementation, this would update all text content
+        });
+
+        // Testimonials auto-scroll
+        let scrollPosition = 0;
+        const testimonialsContainer = document.querySelector('.testimonials-container');
+        
+        setInterval(() => {
+            scrollPosition += 380;
+            if (scrollPosition >= testimonialsContainer.scrollWidth) {
+                scrollPosition = 0;
+            }
+            testimonialsContainer.scrollTo({
+                left: scrollPosition,
+                behavior: 'smooth'
+            });
+        }, 5000);
+    </script>
+</body>
+</html>
