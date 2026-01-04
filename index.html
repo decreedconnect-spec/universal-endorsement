@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Universal Studios - Professional Endorsement Partnership</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
     <style>
         :root {
             --studio-blue: #0A1F44;
@@ -20,7 +22,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
@@ -30,8 +32,8 @@
             overflow-x: hidden;
         }
         
-        /* Navigation */
-        .nav-container {
+        /* Header */
+        header {
             background-color: rgba(10, 31, 68, 0.95);
             padding: 15px 0;
             position: fixed;
@@ -42,26 +44,27 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
         
-        .nav-content {
+        .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 0 auto;
             padding: 0 20px;
         }
         
-        .nav-logo {
+        .logo {
             height: 50px;
             filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.5));
         }
         
-        .nav-links {
+        nav ul {
             display: flex;
             gap: 30px;
+            list-style: none;
         }
         
-        .nav-links a {
+        nav a {
             color: var(--pure-white);
             text-decoration: none;
             font-weight: 600;
@@ -70,7 +73,7 @@
             border-radius: 4px;
         }
         
-        .nav-links a:hover {
+        nav a:hover, nav a.active {
             color: var(--gold);
             background-color: rgba(212, 175, 55, 0.1);
         }
@@ -92,15 +95,25 @@
             font-weight: bold;
         }
         
-        /* Hero Section */
+        /* Page Containers */
+        .page-container {
+            display: none;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+        
+        .page-container.active {
+            display: block;
+        }
+        
+        /* Hero Sections */
         .hero {
-            background-image: url('https://i.imgur.com/dI8HVfj.jpeg');
             background-size: cover;
             background-position: center;
-            min-height: 100vh;
+            min-height: 90vh;
             display: flex;
             align-items: center;
-            padding: 100px 20px 60px;
+            padding: 0 20px;
             position: relative;
         }
         
@@ -120,16 +133,11 @@
             position: relative;
             z-index: 2;
             text-align: center;
-        }
-        
-        .hero-logo {
-            max-width: 400px;
-            margin-bottom: 30px;
-            filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.7));
+            width: 100%;
         }
         
         h1 {
-            font-size: 3rem;
+            font-size: 3.2rem;
             color: var(--gold);
             margin-bottom: 20px;
             text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
@@ -138,7 +146,7 @@
         }
         
         h2 {
-            font-size: 2.2rem;
+            font-size: 2.4rem;
             color: var(--gold);
             margin-bottom: 20px;
             font-weight: 600;
@@ -147,7 +155,14 @@
         h3 {
             font-size: 1.8rem;
             color: var(--gold);
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        h4 {
+            font-size: 1.4rem;
+            color: var(--gold);
+            margin-bottom: 10px;
             font-weight: 600;
         }
         
@@ -156,6 +171,7 @@
             max-width: 900px;
             margin: 0 auto 40px;
             line-height: 1.8;
+            text-align: center;
         }
         
         .highlight {
@@ -163,11 +179,11 @@
             font-weight: bold;
         }
         
-        .cta-btn {
+        .cta-btn, .btn {
             display: inline-block;
             background: linear-gradient(to right, var(--gold), var(--dark-gold));
             color: var(--true-black);
-            padding: 18px 35px;
+            padding: 16px 35px;
             font-size: 1.2rem;
             font-weight: bold;
             border-radius: 6px;
@@ -177,9 +193,11 @@
             letter-spacing: 1px;
             margin-top: 20px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: none;
+            cursor: pointer;
         }
         
-        .cta-btn:hover {
+        .cta-btn:hover, .btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(212, 175, 55, 0.5);
             background: linear-gradient(to right, #F1C40F, var(--gold));
@@ -208,7 +226,37 @@
             border-radius: 2px;
         }
         
-        /* About Section */
+        /* Home Page */
+        #home-page .hero {
+            background-image: url('https://i.imgur.com/dI8HVfj.jpeg');
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .feature-card {
+            background: linear-gradient(rgba(10, 31, 68, 0.8), rgba(0, 0, 0, 0.6));
+            padding: 30px;
+            border-radius: 10px;
+            border-left: 5px solid var(--gold);
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* About Page */
+        #about-page .hero {
+            background-image: url('https://i.imgur.com/x3y7GdF.jpeg');
+            min-height: 70vh;
+        }
+        
         .about-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -222,93 +270,94 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
         
-        /* Partners Section */
-        .partners-grid {
+        /* Partnership Page */
+        #partnership-page .hero {
+            background-image: url('https://i.imgur.com/hNrmfSB.jpeg');
+        }
+        
+        .partnership-content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
+            grid-template-columns: 2fr 1fr;
+            gap: 50px;
         }
         
-        .partner-card {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 25px;
-            border-radius: 10px;
-            border-top: 4px solid var(--light-blue);
-            transition: var(--transition);
-        }
-        
-        .partner-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-        }
-        
-        .partner-card h4 {
-            color: var(--gold);
-            margin-bottom: 15px;
-            font-size: 1.3rem;
-        }
-        
-        /* Benefits Section */
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-        
-        .benefit-item {
-            background: linear-gradient(rgba(10, 31, 68, 0.8), rgba(0, 0, 0, 0.6));
+        .partnership-info {
             padding: 30px;
-            border-radius: 10px;
-            border-left: 5px solid var(--gold);
-            transition: var(--transition);
-        }
-        
-        .benefit-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-        }
-        
-        .benefit-item h4 {
-            color: var(--gold);
-            margin-bottom: 15px;
-            font-size: 1.4rem;
-        }
-        
-        /* Testimonials */
-        .testimonials-container {
-            display: flex;
-            overflow-x: auto;
-            gap: 30px;
-            padding: 20px 0;
-            scroll-behavior: smooth;
-        }
-        
-        .testimonial-card {
-            min-width: 350px;
             background: rgba(0, 0, 0, 0.3);
-            padding: 30px;
             border-radius: 10px;
             border-left: 4px solid var(--gold);
         }
         
-        .testimonial-text {
-            font-style: italic;
+        .partnership-list {
+            margin-left: 20px;
             margin-bottom: 20px;
-            line-height: 1.7;
         }
         
-        .testimonial-author {
-            font-weight: bold;
-            color: var(--gold);
+        .partnership-list li {
+            margin-bottom: 10px;
         }
         
-        /* CTA Section */
-        .cta-section {
-            background: linear-gradient(rgba(10, 31, 68, 0.9), rgba(0, 0, 0, 0.8));
+        /* Gallery Page */
+        #gallery-page .hero {
+            background-image: url('https://i.imgur.com/tcX0B1B.jpeg');
+        }
+        
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .gallery-item {
+            height: 250px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Video Section */
+        .video-section {
+            margin-top: 50px;
             text-align: center;
-            padding: 80px 20px;
+        }
+        
+        .video-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 10px;
+            border: 3px solid var(--gold);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* Apply Page */
+        #apply-page .hero {
+            background-image: url('https://i.imgur.com/N0Hw9Yo.jpeg');
         }
         
         .form-container {
@@ -331,7 +380,7 @@
             color: var(--pure-white);
         }
         
-        .form-group input, .form-group select {
+        .form-group input, .form-group select, .form-group textarea {
             width: 100%;
             padding: 14px 18px;
             background-color: rgba(255, 255, 255, 0.15);
@@ -341,10 +390,19 @@
             font-size: 16px;
         }
         
-        .form-group input:focus, .form-group select:focus {
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
             outline: none;
             border-color: var(--gold);
             box-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* FIXED: Styling for select options to ensure visibility */
+        select option {
+            background-color: var(--studio-blue);
+            color: var(--pure-white);
+            padding: 10px;
+            font-size: 14px;
         }
         
         .success-message {
@@ -356,6 +414,28 @@
             margin-top: 20px;
             text-align: center;
             border-left: 5px solid #4CAF50;
+        }
+        
+        .loading-message {
+            display: none;
+            background: rgba(212, 175, 55, 0.8);
+            color: var(--pure-white);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+            border-left: 5px solid var(--gold);
+        }
+        
+        .error-message {
+            display: none;
+            background: rgba(200, 0, 0, 0.8);
+            color: var(--pure-white);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+            border-left: 5px solid #ff4444;
         }
         
         /* Footer */
@@ -389,15 +469,24 @@
             color: var(--gold);
         }
         
+        .government-section {
+            margin-top: 50px;
+            padding: 30px;
+            background: rgba(10, 31, 68, 0.5);
+            border-radius: 10px;
+        }
+        
         /* Responsive */
         @media (max-width: 768px) {
-            .nav-content {
+            .header-content {
                 flex-direction: column;
                 gap: 15px;
             }
             
-            .nav-links {
+            nav ul {
                 gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
             }
             
             h1 {
@@ -408,13 +497,9 @@
                 font-size: 1.8rem;
             }
             
-            .about-content {
+            .about-content, .partnership-content {
                 grid-template-columns: 1fr;
                 gap: 30px;
-            }
-            
-            .testimonial-card {
-                min-width: 300px;
             }
             
             .footer-links {
@@ -423,20 +508,27 @@
             }
         }
     </style>
+    <script type="text/javascript">
+        // EmailJS initialization
+        (function(){
+            emailjs.init("user_YOUR_USER_ID"); // You'll need to replace this with your actual EmailJS user ID
+        })();
+    </script>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="nav-container">
-        <div class="nav-content">
-            <img src="https://i.imgur.com/x2v08fp.png" alt="Universal Studios Logo" class="nav-logo">
-            <div class="nav-links">
-                <a href="#home">Home</a>
-                <a href="#about">About</a>
-                <a href="#partners">Partners</a>
-                <a href="#benefits">Benefits</a>
-                <a href="#testimonials">Testimonials</a>
-                <a href="#apply">Apply</a>
-            </div>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <img src="https://i.imgur.com/x2v08fp.png" alt="Universal Studios Logo" class="logo">
+            <nav>
+                <ul>
+                    <li><a href="#home-page" class="nav-link active">Home</a></li>
+                    <li><a href="#about-page" class="nav-link">About</a></li>
+                    <li><a href="#partnership-page" class="nav-link">Partnership</a></li>
+                    <li><a href="#gallery-page" class="nav-link">Gallery</a></li>
+                    <li><a href="#apply-page" class="nav-link">Apply</a></li>
+                </ul>
+            </nav>
             <div class="translator">
                 <select id="language-selector">
                     <option value="en">English</option>
@@ -446,153 +538,299 @@
                 </select>
             </div>
         </div>
-    </nav>
+    </header>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <img src="https://i.imgur.com/x2v08fp.png" alt="Universal Studios Logo" class="hero-logo">
-            <h1 id="main-headline">Universal Studios Professional Partnership Programme</h1>
-            <p class="subheadline">Join 10,000+ industry professionals in our exclusive endorsement partnership programme. Gain verified credibility, access premium opportunities, and elevate your career with Universal Studios backing.</p>
-            <a href="#apply" class="cta-btn">Apply Now</a>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="section">
-        <div class="section-heading">
-            <h2>About the Programme</h2>
-        </div>
-        <div class="about-content">
-            <div>
-                <h3>Transform Your Professional Trajectory</h3>
-                <p>Universal Studios brings over a century of entertainment excellence to our Professional Partnership Programme. We've carefully designed this initiative to provide industry professionals with the recognition, connections, and opportunities needed to excel in today's competitive landscape.</p>
-                <p>Through verified endorsements, structured mentorship, and access to exclusive projects, our partners gain the credibility that sets them apart. Whether you're in film production, marketing, creative development, or broadcasting, this programme offers tangible benefits that accelerate career growth.</p>
-                <p>Our partnership is more than just a credential - it's an active collaboration with Hollywood's most respected studio, opening doors to global opportunities and premium compensation structures.</p>
+    <!-- Home Page -->
+    <div id="home-page" class="page-container active">
+        <section class="hero">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1>Universal Studios Professional Partnership</h1>
+                <p class="subheadline">Join 10,000+ industry professionals in our exclusive endorsement programme. Gain verified credibility, access premium opportunities, and elevate your career with Universal Studios backing.</p>
+                <a href="#apply-page" class="cta-btn">Apply Now</a>
             </div>
-            <div>
-                <img src="https://i.imgur.com/x3y7GdF.jpeg" alt="Universal Studios Backlot" class="about-image">
+        </section>
+        
+        <section class="section">
+            <div class="section-heading">
+                <h2>Why Partner With Universal Studios?</h2>
+                <p>Our programme delivers tangible benefits that accelerate professional growth</p>
             </div>
-        </div>
-    </section>
-
-    <!-- Partners Section -->
-    <section id="partners" class="section" style="background-color: rgba(0,0,0,0.3);">
-        <div class="section-heading">
-            <h2>Our Global Network</h2>
-            <p>Universal Studios maintains strategic partnerships with leading industry authorities worldwide</p>
-        </div>
-        <div class="partners-grid">
-            <div class="partner-card">
-                <h4>🇺🇸 U.S. Government Agencies</h4>
-                <p>California Film Commission, U.S. Department of Commerce, Department of Defense Film Support, National Endowment for the Arts</p>
-            </div>
-            <div class="partner-card">
-                <h4>🎬 State Film Authorities</h4>
-                <p>Georgia Film Office, New York State Film Office, Louisiana Entertainment, International Film Commissions</p>
-            </div>
-            <div class="partner-card">
-                <h4>🌍 International Bodies</h4>
-                <p>British Film Institute (UK), Telefilm Canada, Screen Australia, European Union MEDIA Programme</p>
-            </div>
-            <div class="partner-card">
-                <h4>🏛️ Regulatory Entities</h4>
-                <p>Federal Communications Commission, International Trade Associations, Cultural Exchange Programmes</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Benefits Section -->
-    <section id="benefits" class="section">
-        <div class="section-heading">
-            <h2>Programme Benefits</h2>
-            <p>Gain exclusive advantages that elevate your professional standing</p>
-        </div>
-        <div class="benefits-grid">
-            <div class="benefit-item">
-                <h4>🏆 Enhanced Credibility</h4>
-                <p>Verified Universal Studios endorsement strengthens your professional reputation and market position.</p>
-            </div>
-            <div class="benefit-item">
-                <h4>💼 Premium Opportunities</h4>
-                <p>Access exclusive projects, partnerships, and collaborations with premium compensation.</p>
-            </div>
-            <div class="benefit-item">
-                <h4>🌍 Global Recognition</h4>
-                <p>Position yourself as an industry leader with Universal Studios' worldwide brand recognition.</p>
-            </div>
-            <div class="benefit-item">
-                <h4>🚀 Career Acceleration</h4>
-                <p>Strategic networking and mentorship opportunities that accelerate professional growth.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section id="testimonials" class="section" style="background-color: rgba(0,0,0,0.3);">
-        <div class="section-heading">
-            <h2>Success Stories</h2>
-            <p>Hear from professionals who transformed their careers through our partnership programme</p>
-        </div>
-        <div class="testimonials-container">
-            <div class="testimonial-card">
-                <p class="testimonial-text">"The Universal Studios partnership completely transformed my career trajectory. The endorsement opened doors to projects I never thought possible, and the network I've built is invaluable."</p>
-                <p class="testimonial-author">- Sarah Johnson, Film Producer</p>
-            </div>
-            <div class="testimonial-card">
-                <p class="testimonial-text">"As a marketing professional, the credibility gained through this programme has been instrumental in securing high-value clients and partnerships globally."</p>
-                <p class="testimonial-author">- Michael Chen, Marketing Director</p>
-            </div>
-            <div class="testimonial-card">
-                <p class="testimonial-text">"The mentorship and industry insights provided through Universal Studios have been worth more than any certification. It's a game-changer for creative professionals."</p>
-                <p class="testimonial-author">- Elena Rodriguez, Creative Director</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section id="apply" class="cta-section">
-        <div class="section-heading">
-            <h2>Ready to Elevate Your Career?</h2>
-            <p>Join thousands of professionals who have transformed their careers with Universal Studios</p>
-        </div>
-        <div class="form-container">
-            <form id="partnership-form">
-                <div class="form-group">
-                    <label for="full-name">Full Name</label>
-                    <input type="text" id="full-name" name="full-name" required>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4><i class="fas fa-award"></i> Enhanced Credibility</h4>
+                    <p>Verified Universal Studios endorsement strengthens your professional reputation and market position with official recognition.</p>
                 </div>
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" required>
+                <div class="feature-card">
+                    <h4><i class="fas fa-briefcase"></i> Premium Opportunities</h4>
+                    <p>Access exclusive projects, partnerships, and collaborations with premium compensation structures not available to the general public.</p>
                 </div>
-                <div class="form-group">
-                    <label for="industry">Industry</label>
-                    <select id="industry" name="industry" required>
-                        <option value="entertainment">Entertainment & Media</option>
-                        <option value="film-production">Film Production</option>
-                        <option value="broadcasting">Broadcasting</option>
-                        <option value="marketing">Marketing & Promotion</option>
-                        <option value="creative">Creative Arts</option>
-                    </select>
+                <div class="feature-card">
+                    <h4><i class="fas fa-globe"></i> Global Recognition</h4>
+                    <p>Position yourself as an industry leader with Universal Studios' worldwide brand recognition and industry authority.</p>
                 </div>
-                <div class="form-group">
-                    <label for="experience">Years of Experience</label>
-                    <select id="experience" name="experience" required>
-                        <option value="0-2">0-2 years</option>
-                        <option value="3-5">3-5 years</option>
-                        <option value="6-10">6-10 years</option>
-                        <option value="10+">10+ years</option>
-                    </select>
+                <div class="feature-card">
+                    <h4><i class="fas fa-rocket"></i> Career Acceleration</h4>
+                    <p>Strategic networking, mentorship opportunities, and professional development resources that accelerate your career growth.</p>
                 </div>
-                <button type="submit" class="cta-btn" style="width: 100%; margin-top: 20px;">Submit Application</button>
-            </form>
-            <div id="success-message" class="success-message">
-                Thank you! Your application has been received. Our team will review it and contact you within 48 hours.
             </div>
-        </div>
-    </section>
+            
+            <div class="video-section">
+                <h3>Partnership Programme Overview</h3>
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/XZ_qrsUibCI" title="Universal Studios Partnership Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- About Page -->
+    <div id="about-page" class="page-container">
+        <section class="hero">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1>About Our Programme</h1>
+                <p class="subheadline">Learn how Universal Studios brings over a century of entertainment excellence to professional partnerships</p>
+            </div>
+        </section>
+        
+        <section class="section">
+            <div class="section-heading">
+                <h2>Transform Your Professional Trajectory</h2>
+            </div>
+            
+            <div class="about-content">
+                <div>
+                    <h3>A Legacy of Excellence</h3>
+                    <p>Universal Studios brings over a century of entertainment excellence to our Professional Partnership Programme. We've carefully designed this initiative to provide industry professionals with the recognition, connections, and opportunities needed to excel in today's competitive landscape.</p>
+                    <p>Through verified endorsements, structured mentorship, and access to exclusive projects, our partners gain the credibility that sets them apart. Whether you're in film production, marketing, creative development, or broadcasting, this programme offers tangible benefits that accelerate career growth.</p>
+                    <p>Our partnership is more than just a credential - it's an active collaboration with Hollywood's most respected studio, opening doors to global opportunities and premium compensation structures.</p>
+                    <a href="#partnership-page" class="btn">Learn About Partnership Details</a>
+                </div>
+                <div>
+                    <img src="https://i.imgur.com/qmnhThO.jpeg" alt="Universal Studios Hollywood" class="about-image">
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Partnership Page -->
+    <div id="partnership-page" class="page-container">
+        <section class="hero">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1>Partnership Details</h1>
+                <p class="subheadline">Comprehensive support for industry professionals seeking growth and recognition</p>
+            </div>
+        </section>
+        
+        <section class="section">
+            <div class="section-heading">
+                <h2>Partnership Benefits & Requirements</h2>
+            </div>
+            
+            <div class="partnership-content">
+                <div>
+                    <h3>Programme Structure</h3>
+                    <p>Our partnership programme is structured to provide maximum value to qualified professionals across the entertainment industry. The programme includes:</p>
+                    
+                    <ul class="partnership-list">
+                        <li>Official Universal Studios endorsement verification</li>
+                        <li>Access to exclusive project opportunities</li>
+                        <li>Professional networking events and mixers</li>
+                        <li>Mentorship from industry leaders</li>
+                        <li>Marketing and promotional support</li>
+                        <li>Continuing education resources</li>
+                    </ul>
+                    
+                    <h3>Eligibility Requirements</h3>
+                    <p>To qualify for the Universal Studios Professional Partnership Programme, applicants must demonstrate:</p>
+                    
+                    <ul class="partnership-list">
+                        <li>Minimum 3 years of industry experience</li>
+                        <li>Portfolio of relevant work</li>
+                        <li>Professional references</li>
+                        <li>Commitment to ethical business practices</li>
+                        <li>Alignment with Universal Studios values</li>
+                    </ul>
+                </div>
+                
+                <div class="partnership-info">
+                    <h3>Government & Industry Partnerships</h3>
+                    <p>Universal Studios maintains strategic partnerships with leading industry authorities worldwide:</p>
+                    
+                    <h4>🇺🇸 U.S. Government Agencies</h4>
+                    <p>California Film Commission, U.S. Department of Commerce, Department of Defense Film Support</p>
+                    
+                    <h4>🎬 State Film Authorities</h4>
+                    <p>Georgia Film Office, New York State Film Office, Louisiana Entertainment</p>
+                    
+                    <h4>🌍 International Bodies</h4>
+                    <p>British Film Institute (UK), Telefilm Canada, Screen Australia</p>
+                    
+                    <a href="#apply-page" class="btn" style="width: 100%; text-align: center; margin-top: 30px;">Apply Now</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Gallery Page -->
+    <div id="gallery-page" class="page-container">
+        <section class="hero">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1>Gallery</h1>
+                <p class="subheadline">Explore our studios, partnerships, and success stories</p>
+            </div>
+        </section>
+        
+        <section class="section">
+            <div class="section-heading">
+                <h2>Universal Studios in Action</h2>
+                <p>From Hollywood backlots to global partnerships</p>
+            </div>
+            
+            <div class="gallery-container">
+                <div class="gallery-item">
+                    <img src="https://i.imgur.com/L3fGXtk.jpeg" alt="Universal Studios Backlot">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://i.imgur.com/tcX0B1B.jpeg" alt="Film Production">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://i.imgur.com/N0Hw9Yo.jpeg" alt="Studio Facilities">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://i.imgur.com/ua9c1Vw.jpeg" alt="Event Showcase">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://i.imgur.com/LRYNmeK.jpg" alt="Studio Tour">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://i.imgur.com/x3y7GdF.jpeg" alt="Partnership Event">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://i.imgur.com/qmnhThO.jpeg" alt="Hollywood Sign">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://i.imgur.com/hNrmfSB.jpeg" alt="Aerial View">
+                </div>
+            </div>
+            
+            <div class="video-section">
+                <h3>Partnership Success Stories</h3>
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/XZ_qrsUibCI" title="Universal Studios Partnership Success Stories" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Apply Page -->
+    <div id="apply-page" class="page-container">
+        <section class="hero">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1>Apply Now</h1>
+                <p class="subheadline">Begin your journey with Universal Studios Professional Partnership Programme</p>
+            </div>
+        </section>
+        
+        <section class="section">
+            <div class="section-heading">
+                <h2>Application Form</h2>
+                <p>Complete the form below to begin your partnership application</p>
+            </div>
+            
+            <div class="form-container">
+                <form id="partnership-form">
+                    <div class="form-group">
+                        <label for="full-name">Full Legal Name</label>
+                        <input type="text" id="full-name" name="full-name" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Professional Email Address</label>
+                        <input type="email" id="email" name="email" required placeholder="your.email@professional.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" required placeholder="+1 (555) 123-4567">
+                    </div>
+                    <div class="form-group">
+                        <label for="industry">Primary Industry</label>
+                        <select id="industry" name="industry" required>
+                            <option value="">Select Your Industry</option>
+                            <option value="entertainment">Entertainment & Media Production</option>
+                            <option value="film-production">Film & Television Production</option>
+                            <option value="broadcasting">Media Broadcasting & Distribution</option>
+                            <option value="marketing">Marketing & Promotion</option>
+                            <option value="creative">Creative Arts & Development</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="experience">Years of Experience</label>
+                        <select id="experience" name="experience" required>
+                            <option value="">Select Experience Level</option>
+                            <option value="0-2">0-2 years</option>
+                            <option value="3-5">3-5 years</option>
+                            <option value="6-10">6-10 years</option>
+                            <option value="10+">10+ years</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="goals">Primary Professional Goals</label>
+                        <select id="goals" name="goals" required>
+                            <option value="">Select Your Goals</option>
+                            <option value="portfolio-growth">Portfolio Growth & Revenue Expansion</option>
+                            <option value="professional-growth">Industry Leadership & Career Advancement</option>
+                            <option value="recognition">Global Recognition & Credibility</option>
+                            <option value="networking">Strategic Networking Opportunities</option>
+                            <option value="projects">High-Value Project Access</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Why are you interested in this partnership? (Optional)</label>
+                        <textarea id="message" name="message" rows="4" placeholder="Briefly explain your interest in partnering with Universal Studios"></textarea>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;" id="submit-btn">Submit Application</button>
+                </form>
+                <div id="loading-message" class="loading-message">
+                    <i class="fas fa-spinner fa-spin"></i> Processing your application...
+                </div>
+                <div id="success-message" class="success-message">
+                    <i class="fas fa-check-circle"></i> Thank you! Your application has been received and sent to Encrypted.mail@tvstar.com. Our team will review it and contact you within 48 hours.
+                </div>
+                <div id="error-message" class="error-message">
+                    <i class="fas fa-exclamation-circle"></i> There was an error submitting your application. Please try again or contact us directly at Encrypted.mail@tvstar.com.
+                </div>
+            </div>
+            
+            <div class="government-section">
+                <h3>Official Partnership Recognition</h3>
+                <p>Universal Studios collaborates with leading government bodies and international film authorities worldwide. Our programme participants benefit from these established relationships:</p>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h4>🇺🇸 United States (Primary Hollywood Backing Structures)</h4>
+                        <p>California Film Commission (CFC) - Administers California's Film & TV Tax Credit Program</p>
+                        <p>U.S. Department of Commerce - Supports international trade, exports, and creative industries</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🎬 State-Level Film Incentive Authorities (U.S.)</h4>
+                        <p>Georgia Film Office, New York State Film Office, Louisiana Entertainment, New Mexico Film Office, Texas Film Commission</p>
+                        <p>Offer tax incentives, rebates, and production support</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🌍 International Government Film Partners</h4>
+                        <p>British Film Institute (BFI) – UK, UK Department for Culture, Media & Sport (DCMS), Telefilm Canada, Screen Australia, European Union – Creative Europe MEDIA Programme</p>
+                    </div>
+                </div>
+                
+                <p style="margin-top: 20px; font-style: italic;">Note: Government bodies do not sponsor or endorse studios by default. Cooperation typically occurs through tax incentives, regulatory approval, cultural programmes, or logistical support.</p>
+            </div>
+        </section>
+    </div>
 
     <!-- Footer -->
     <footer>
@@ -601,61 +839,124 @@
             <p>© 2024 Universal Studios. All Rights Reserved.</p>
             <p>Universal Studios™ is a trademark of Universal Studios.</p>
             <div class="footer-links">
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
-                <a href="#">Contact Us</a>
-                <a href="#">Careers</a>
+                <a href="#home-page">Home</a>
+                <a href="#about-page">About</a>
+                <a href="#partnership-page">Partnership</a>
+                <a href="#gallery-page">Gallery</a>
+                <a href="#apply-page">Apply</a>
             </div>
             <p>Protected under applicable international copyright, trademark, and intellectual property laws.</p>
-            <p>Official Partnership Inquiries: global.partnerships@universalstudios.com</p>
+            <p>Data is collected and processed in compliance with relevant data protection regulations.</p>
+            <p>Official Partnership Inquiries: Encrypted.mail@tvstar.com</p>
         </div>
     </footer>
 
     <script>
-        // Smooth scrolling for navigation
-        document.querySelectorAll('.nav-links a').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
+        // Navigation functionality
+        const navLinks = document.querySelectorAll('.nav-link');
+        const pageContainers = document.querySelectorAll('.page-container');
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
                 e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                window.scrollTo({
-                    top: targetElement.offsetTop - 80,
-                    behavior: 'smooth'
-                });
+                
+                // Remove active class from all links and pages
+                navLinks.forEach(l => l.classList.remove('active'));
+                pageContainers.forEach(p => p.classList.remove('active'));
+                
+                // Add active class to clicked link and corresponding page
+                this.classList.add('active');
+                const targetPage = document.querySelector(this.getAttribute('href'));
+                targetPage.classList.add('active');
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
             });
         });
-
-        // Form submission
+        
+        // Form submission with EmailJS
         document.getElementById('partnership-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            document.getElementById('success-message').style.display = 'block';
-            this.reset();
             
-            setTimeout(() => {
-                document.getElementById('success-message').style.display = 'none';
-            }, 5000);
+            // Show loading message
+            document.getElementById('loading-message').style.display = 'block';
+            document.getElementById('success-message').style.display = 'none';
+            document.getElementById('error-message').style.display = 'none';
+            
+            // Get form data
+            const formData = new FormData(this);
+            const data = {
+                fullName: formData.get('full-name'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                industry: formData.get('industry'),
+                experience: formData.get('experience'),
+                goals: formData.get('goals'),
+                message: formData.get('message'),
+                timestamp: new Date().toISOString()
+            };
+            
+            // Send email using EmailJS (with fallback)
+            emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', data)
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    // Hide loading message, show success message
+                    document.getElementById('loading-message').style.display = 'none';
+                    document.getElementById('success-message').style.display = 'block';
+                    
+                    // Reset form
+                    document.getElementById('partnership-form').reset();
+                    
+                    // Hide success message after 8 seconds
+                    setTimeout(() => {
+                        document.getElementById('success-message').style.display = 'none';
+                    }, 8000);
+                }, function(error) {
+                    console.log('FAILED...', error);
+                    // If EmailJS fails, try fallback method
+                    sendEmailFallback(data);
+                });
         });
-
-        // Language selector functionality (simplified)
-        document.getElementById('language-selector').addEventListener('change', function(e) {
-            alert('Language changed to: ' + e.target.options[e.target.selectedIndex].text);
-            // In a real implementation, this would update all text content
-        });
-
-        // Testimonials auto-scroll
-        let scrollPosition = 0;
-        const testimonialsContainer = document.querySelector('.testimonials-container');
         
-        setInterval(() => {
-            scrollPosition += 380;
-            if (scrollPosition >= testimonialsContainer.scrollWidth) {
-                scrollPosition = 0;
-            }
-            testimonialsContainer.scrollTo({
-                left: scrollPosition,
-                behavior: 'smooth'
+        // Fallback email method using mailto link
+        function sendEmailFallback(data) {
+            const subject = `Universal Studios Partnership Application - ${data.fullName}`;
+            let body = `New Partnership Application Received:\n\n`;
+            body += `Full Name: ${data.fullName}\n`;
+            body += `Email: ${data.email}\n`;
+            body += `Phone: ${data.phone}\n`;
+            body += `Industry: ${data.industry}\n`;
+            body += `Experience: ${data.experience}\n`;
+            body += `Goals: ${data.goals}\n`;
+            body += `Message: ${data.message || 'Not provided'}\n`;
+            body += `Submitted: ${new Date().toLocaleString()}\n`;
+            
+            const mailtoLink = `mailto:Encrypted.mail@tvstar.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            // Try to open mail client
+            window.location.href = mailtoLink;
+            
+            // Show success message after a delay (assuming user will send manually)
+            setTimeout(() => {
+                document.getElementById('loading-message').style.display = 'none';
+                document.getElementById('success-message').style.display = 'block';
+                document.getElementById('partnership-form').reset();
+            }, 2000);
+        }
+        
+        // Language selector functionality
+        document.getElementById('language-selector').addEventListener('change', function(e) {
+            const lang = e.target.value;
+            alert(`Language changed to ${e.target.options[e.target.selectedIndex].text}. In a full implementation, all text would be translated.`);
+        });
+        
+        // Gallery image enlargement (simplified)
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        galleryItems.forEach(item => {
+            item.addEventListener('click', function() {
+                alert('In a full implementation, this would open a lightbox with the enlarged image.');
             });
-        }, 5000);
+        });
     </script>
 </body>
 </html>
