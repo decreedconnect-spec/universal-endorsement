@@ -264,7 +264,7 @@ h1 {
 }
 
 /* =====================
-   BUTTONS
+   BUTTONS - FIXED
 ===================== */
 .btn, .cta-btn {
   display: inline-block;
@@ -376,7 +376,7 @@ h1 {
   line-height: 1.6;
 }
 
-/* Image Cards */
+/* Image Cards - FIXED */
 .image-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -601,7 +601,7 @@ body, html {
       <h1>Universal Studios Professional Partnership Program</h1>
       <p class="subheadline">Verified recognition. Global credibility. Hollywood-level opportunities.</p>
       <p class="supporting-statement">A selective professional recognition and collaboration initiative supporting experienced individuals and organizations across entertainment, media, and creative industries worldwide.</p>
-      <a href="#apply-page" class="cta-btn">Begin Your Journey</a>
+      <a href="#apply-page" class="cta-btn" id="begin-journey-btn">Begin Your Journey</a>
     </div>
   </section>
   
@@ -969,17 +969,44 @@ body, html {
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('Document loaded - Initializing Universal Studios Partnership Site');
+    
+    // Cache DOM elements
     const navLinks = document.querySelectorAll('.nav-link');
     const pages = document.querySelectorAll('.page-container');
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const navOverlay = document.getElementById('navOverlay');
     const nav = document.querySelector('nav');
     const applicationForm = document.getElementById('application-form');
+    const beginJourneyBtn = document.getElementById('begin-journey-btn');
+    
+    // Debugging
+    console.log('Found elements:', {
+        navLinks: navLinks.length,
+        pages: pages.length,
+        mobileMenuBtn: !!mobileMenuBtn,
+        navOverlay: !!navOverlay,
+        nav: !!nav,
+        applicationForm: !!applicationForm,
+        beginJourneyBtn: !!beginJourneyBtn
+    });
+    
+    // Ensure nav overlay exists
+    if (!navOverlay) {
+        console.error('Nav overlay not found!');
+        const newOverlay = document.createElement('div');
+        newOverlay.className = 'nav-overlay';
+        newOverlay.id = 'navOverlay';
+        document.body.appendChild(newOverlay);
+        console.log('Created missing nav overlay');
+    }
     
     // Page switching functionality
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
+            console.log('Navigation clicked:', this.getAttribute('href'));
+            
             const targetPage = this.getAttribute('href');
             
             // Update navigation
@@ -988,12 +1015,18 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Update page visibility
             pages.forEach(p => p.classList.remove('active'));
-            document.querySelector(targetPage).classList.add('active');
+            const targetElement = document.querySelector(targetPage);
+            if (targetElement) {
+                targetElement.classList.add('active');
+                console.log('Switched to page:', targetPage);
+            } else {
+                console.error('Target page not found:', targetPage);
+            }
             
             // Close mobile menu on navigation
             if (window.innerWidth <= 768) {
                 nav.classList.remove('open');
-                navOverlay.style.display = 'none';
+                if (navOverlay) navOverlay.style.display = 'none';
                 document.body.style.overflow = '';
             }
             
@@ -1003,24 +1036,30 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Mobile menu functionality
-    mobileMenuBtn.addEventListener('click', function() {
-        nav.classList.toggle('open');
-        navOverlay.style.display = nav.classList.contains('open') ? 'block' : 'none';
-        document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
-    });
+    if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', function() {
+            console.log('Mobile menu toggled');
+            nav.classList.toggle('open');
+            if (navOverlay) navOverlay.style.display = nav.classList.contains('open') ? 'block' : 'none';
+            document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+        });
+    }
     
     // Close menu when overlay is clicked
-    navOverlay.addEventListener('click', function() {
-        nav.classList.remove('open');
-        this.style.display = 'none';
-        document.body.style.overflow = '';
-    });
+    if (navOverlay) {
+        navOverlay.addEventListener('click', function() {
+            console.log('Overlay clicked - closing menu');
+            nav.classList.remove('open');
+            this.style.display = 'none';
+            document.body.style.overflow = '';
+        });
+    }
     
     // Close menu on window resize
     window.addEventListener('resize', function() {
         if (window.innerWidth > 768) {
             nav.classList.remove('open');
-            navOverlay.style.display = 'none';
+            if (navOverlay) navOverlay.style.display = 'none';
             document.body.style.overflow = '';
         }
     });
@@ -1028,34 +1067,52 @@ document.addEventListener('DOMContentLoaded', function() {
     // Header scroll effect
     window.addEventListener('scroll', function() {
         const header = document.getElementById('mainHeader');
-        header.classList.toggle('shrink', window.scrollY > 60);
+        if (header) {
+            header.classList.toggle('shrink', window.scrollY > 60);
+        }
     });
     
-    // Form submission handling (preserving original functionality)
+    // Form submission handling
     if (applicationForm) {
         applicationForm.addEventListener('submit', function(e) {
-            // Formspree will handle the submission
-            // You can add custom validation here if needed
+            console.log('Form submission initiated');
             const submitBtn = this.querySelector('button[type="submit"]');
-            submitBtn.textContent = 'Submitting...';
-            submitBtn.disabled = true;
-            
-            // Reset button after a delay (in case of error)
-            setTimeout(function() {
-                submitBtn.textContent = 'Submit Application';
-                submitBtn.disabled = false;
-            }, 3000);
+            if (submitBtn) {
+                submitBtn.textContent = 'Submitting...';
+                submitBtn.disabled = true;
+                
+                // Reset button after a delay (in case of error)
+                setTimeout(function() {
+                    submitBtn.textContent = 'Submit Application';
+                    submitBtn.disabled = false;
+                }, 3000);
+            }
         });
     }
     
-    // Enhanced mobile detection
-    function isTouchDevice() {
-        return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    // Ensure Begin Your Journey button works
+    if (beginJourneyBtn) {
+        beginJourneyBtn.addEventListener('click', function(e) {
+            console.log('Begin Journey button clicked');
+            // This will naturally navigate via the href attribute
+        });
     }
     
-    if (isTouchDevice()) {
-        document.body.classList.add('touch-device');
-    }
+    // Test image loading
+    const images = document.querySelectorAll('img');
+    images.forEach(img => {
+        img.onerror = function() {
+            console.error('Failed to load image:', this.src);
+            this.style.backgroundColor = '#f0f0f0';
+            this.style.padding = '20px';
+            this.alt = 'Image not available';
+        };
+        img.onload = function() {
+            console.log('Image loaded successfully:', this.src);
+        };
+    });
+    
+    console.log('Universal Studios Partnership Site initialized successfully');
 });
 </script>
 </body>
