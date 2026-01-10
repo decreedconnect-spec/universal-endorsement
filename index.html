@@ -10,23 +10,32 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
+/* =====================
+   BRAND VARIABLES
+===================== */
 :root{
 --studio-blue:#0A1F44;
 --deep-blue:#06142E;
---pure-white:#FFFFFF;
---true-black:#000000;
 --gold:#D4AF37;
 --light-gold:#FFD700;
 --dark-gold:#B8860B;
---transition:all .3s ease;
+--white:#ffffff;
+--transition:.35s ease;
 }
 
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Montserrat','Segoe UI',sans-serif;}
+/* =====================
+   BASE
+===================== */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Montserrat,Segoe UI,sans-serif;
+}
 
 body{
 background:linear-gradient(135deg,var(--deep-blue),var(--studio-blue));
-color:var(--pure-white);
-line-height:1.6;
+color:var(--white);
 overflow-x:hidden;
 }
 
@@ -40,7 +49,9 @@ pointer-events:none;
 z-index:0;
 }
 
-/* HEADER */
+/* =====================
+   HEADER / NAV
+===================== */
 header{
 position:fixed;
 top:0;
@@ -49,6 +60,11 @@ z-index:1000;
 background:rgba(6,20,46,.95);
 border-bottom:3px solid var(--gold);
 backdrop-filter:blur(10px);
+transition:padding .3s ease;
+}
+
+header.shrink{
+padding:4px 0;
 }
 
 .header-content{
@@ -60,7 +76,10 @@ align-items:center;
 justify-content:space-between;
 }
 
-.logo{height:55px;filter:drop-shadow(0 0 8px rgba(212,175,55,.7));}
+.logo{
+height:55px;
+filter:drop-shadow(0 0 8px rgba(212,175,55,.6));
+}
 
 nav ul{
 display:flex;
@@ -72,10 +91,13 @@ nav a{
 color:white;
 text-decoration:none;
 font-weight:600;
-padding:8px 12px;
+letter-spacing:.5px;
 }
 
-nav a:hover,.nav-link.active{color:var(--gold);}
+nav a.active,
+nav a:hover{
+color:var(--gold);
+}
 
 .mobile-menu-toggle{
 display:none;
@@ -84,7 +106,7 @@ color:var(--gold);
 cursor:pointer;
 }
 
-/* MOBILE NAV */
+/* Mobile nav */
 @media(max-width:768px){
 .mobile-menu-toggle{display:block;}
 nav{
@@ -98,50 +120,64 @@ transition:right .4s ease;
 padding-top:30px;
 }
 nav.open{right:0;}
-nav ul{flex-direction:column;align-items:center;gap:25px;}
+nav ul{
+flex-direction:column;
+align-items:center;
+gap:25px;
+}
 }
 
-/* PAGE */
-.page-container{display:none;padding-top:90px;min-height:100vh;}
-.page-container.active{display:block;}
+/* =====================
+   PAGE SYSTEM
+===================== */
+.page-container{
+display:none;
+padding-top:90px;
+min-height:100vh;
+}
 
+.page-container.active{
+display:block;
+}
+
+/* =====================
+   HERO (Inspired by USH)
+===================== */
 .hero{
 min-height:90vh;
+background-size:cover;
+background-position:center;
 display:flex;
 align-items:center;
 justify-content:center;
 position:relative;
-background-size:cover;
-background-position:center;
 }
 
-.hero:after{
+.hero::after{
 content:"";
 position:absolute;
 inset:0;
-background:radial-gradient(circle at top,rgba(255,255,255,.08),transparent 60%);
-}
-
-.hero-overlay{
-position:absolute;
-inset:0;
-background:linear-gradient(135deg,rgba(6,20,46,.9),rgba(10,31,68,.7));
+background:linear-gradient(
+to bottom,
+rgba(0,0,0,.15),
+rgba(0,0,0,.75)
+);
 }
 
 .hero-content{
 position:relative;
 z-index:2;
-max-width:1000px;
 text-align:center;
+max-width:1000px;
 padding:20px;
 }
 
 h1{
 font-size:3rem;
+line-height:1.2;
 background:linear-gradient(to right,var(--light-gold),var(--gold));
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
-letter-spacing:1.5px;
 margin-bottom:20px;
 }
 
@@ -150,26 +186,49 @@ font-size:1.3rem;
 opacity:.95;
 }
 
-/* BUTTONS */
-.btn,.cta-btn{
+/* =====================
+   BUTTONS
+===================== */
+.btn,
+.cta-btn{
 display:inline-block;
 margin-top:25px;
 padding:16px 36px;
-font-size:1.2rem;
+font-size:1.15rem;
 font-weight:bold;
 background:linear-gradient(to right,var(--gold),var(--dark-gold));
 color:black;
-border:none;
 border-radius:8px;
-cursor:pointer;
+text-decoration:none;
 transition:var(--transition);
 }
 
-.btn:hover,.cta-btn:hover{transform:translateY(-4px);}
+.btn:hover,
+.cta-btn:hover{
+transform:translateY(-4px);
+box-shadow:0 10px 25px rgba(0,0,0,.4);
+}
 
-/* SECTIONS */
-.section{max-width:1200px;margin:auto;padding:90px 20px;position:relative;z-index:2;}
-.section-heading{text-align:center;margin-bottom:60px;}
+/* =====================
+   SECTIONS
+===================== */
+.section{
+max-width:1200px;
+margin:auto;
+padding:90px 20px;
+position:relative;
+z-index:2;
+}
+
+.section.alt{
+background:rgba(0,0,0,.25);
+}
+
+.section-heading{
+text-align:center;
+margin-bottom:60px;
+}
+
 .section-heading:after{
 content:"";
 width:120px;
@@ -179,6 +238,9 @@ display:block;
 margin:20px auto;
 }
 
+/* =====================
+   FEATURES
+===================== */
 .features-grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
@@ -186,30 +248,68 @@ gap:30px;
 }
 
 .feature-card{
-background:linear-gradient(145deg,rgba(10,31,68,.9),rgba(0,0,0,.7));
+background:linear-gradient(145deg,rgba(10,31,68,.9),rgba(0,0,0,.75));
 padding:30px;
 border-radius:15px;
 border-left:6px solid var(--gold);
-backdrop-filter:blur(6px);
-transition:.3s;
+transition:var(--transition);
 }
 
-.feature-card:hover{transform:translateY(-8px);}
+.feature-card:hover{
+transform:translateY(-8px);
+}
 
-.feature-card h4{color:var(--gold);margin-bottom:10px;}
+.feature-card h4{
+color:var(--gold);
+margin-bottom:10px;
+}
 
-/* FORMS */
+/* =====================
+   GALLERY
+===================== */
+.gallery-container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:25px;
+}
+
+.gallery-item{
+height:260px;
+border-radius:15px;
+overflow:hidden;
+}
+
+.gallery-item img{
+width:100%;
+height:100%;
+object-fit:cover;
+transition:transform .6s ease;
+}
+
+.gallery-item:hover img{
+transform:scale(1.08);
+}
+
+/* =====================
+   FORM
+===================== */
 .form-container{
 max-width:650px;
 margin:auto;
-padding:40px;
 background:linear-gradient(145deg,rgba(0,0,0,.6),rgba(10,31,68,.8));
-border:3px solid var(--gold);
+padding:40px;
 border-radius:15px;
+border:3px solid var(--gold);
 }
 
 .form-group{margin-bottom:25px;}
-label{display:block;margin-bottom:8px;font-weight:bold;}
+
+label{
+display:block;
+margin-bottom:8px;
+font-weight:bold;
+}
+
 input,select,textarea{
 width:100%;
 padding:14px;
@@ -219,14 +319,9 @@ background:rgba(255,255,255,.15);
 color:white;
 }
 
-/* TRUST */
-.trust-icons{
-font-size:2.5rem;
-color:var(--gold);
-margin-bottom:10px;
-}
-
-/* FOOTER */
+/* =====================
+   FOOTER
+===================== */
 footer{
 background:linear-gradient(145deg,rgba(0,0,0,.95),rgba(6,20,46,.9));
 padding:60px 20px;
@@ -234,17 +329,19 @@ border-top:4px solid var(--gold);
 text-align:center;
 }
 
-footer p{opacity:.85;font-size:.95rem;}
-
-:focus-visible{outline:3px solid var(--gold);outline-offset:3px;}
+footer p{
+opacity:.85;
+font-size:.95rem;
+}
 </style>
 </head>
 
 <body>
 
-<header>
+<header id="mainHeader">
 <div class="header-content">
 <img src="https://i.imgur.com/x2v08fp.png" class="logo">
+
 <nav>
 <ul>
 <li><a href="#home-page" class="nav-link active">Home</a></li>
@@ -254,6 +351,7 @@ footer p{opacity:.85;font-size:.95rem;}
 <li><a href="#apply-page" class="nav-link">Apply</a></li>
 </ul>
 </nav>
+
 <i class="fas fa-bars mobile-menu-toggle" id="mobileMenuBtn"></i>
 </div>
 </header>
@@ -261,7 +359,6 @@ footer p{opacity:.85;font-size:.95rem;}
 <!-- HOME -->
 <div id="home-page" class="page-container active">
 <section class="hero" style="background-image:url('https://i.imgur.com/dI8HVfj.jpeg')">
-<div class="hero-overlay"></div>
 <div class="hero-content">
 <h1>Universal Studios Professional Partnership Program</h1>
 <p class="subheadline">Verified recognition. Global credibility. Hollywood-level opportunities.</p>
@@ -270,49 +367,92 @@ footer p{opacity:.85;font-size:.95rem;}
 </section>
 </div>
 
-<!-- TRUST -->
-<section class="section">
-<div class="section-heading">
-<h2>Trust & Verification</h2>
-<p>Transparency, compliance, and professional integrity</p>
-</div>
-
-<div class="features-grid">
-<div class="feature-card">
-<div class="trust-icons">🔒</div>
-<h4>Secure Applications</h4>
-<p>Encrypted HTTPS submission & secure data handling.</p>
-</div>
-
-<div class="feature-card">
-<div class="trust-icons">📜</div>
-<h4>Legal Protection</h4>
-<p>Protected by international trademark & IP laws.</p>
-</div>
-
-<div class="feature-card">
-<div class="trust-icons">🏛</div>
-<h4>Government Cooperation</h4>
-<p>Aligned with official film commissions worldwide.</p>
-</div>
-
-<div class="feature-card">
-<div class="trust-icons">📧</div>
-<h4>Official Communication</h4>
-<p>No payments requested via personal emails or messaging apps.</p>
-</div>
+<!-- ABOUT -->
+<div id="about-page" class="page-container">
+<section class="hero" style="background-image:url('https://i.imgur.com/x3y7GdF.jpeg')">
+<div class="hero-content">
+<h1>About the Program</h1>
+<p class="subheadline">A professional recognition initiative inspired by studio excellence</p>
 </div>
 </section>
+</div>
+
+<!-- PARTNERSHIP -->
+<div id="partnership-page" class="page-container">
+<section class="hero" style="background-image:url('https://i.imgur.com/hNrmfSB.jpeg')">
+<div class="hero-content">
+<h1>Partnership Opportunities</h1>
+<p class="subheadline">Strategic collaboration, visibility, and long-term value</p>
+</div>
+</section>
+</div>
+
+<!-- GALLERY -->
+<div id="gallery-page" class="page-container">
+<section class="section alt">
+<div class="section-heading"><h2>Gallery</h2></div>
+<div class="gallery-container">
+<img class="gallery-item" src="https://i.imgur.com/L3fGXtk.jpeg">
+<img class="gallery-item" src="https://i.imgur.com/tcX0B1B.jpeg">
+<img class="gallery-item" src="https://i.imgur.com/N0Hw9Yo.jpeg">
+<img class="gallery-item" src="https://i.imgur.com/ua9c1Vw.jpeg">
+<img class="gallery-item" src="https://i.imgur.com/qmnhThO.jpeg">
+<img class="gallery-item" src="https://i.imgur.com/hNrmfSB.jpeg">
+</div>
+</section>
+</div>
+
+<!-- APPLY -->
+<div id="apply-page" class="page-container">
+<section class="section">
+<div class="section-heading"><h2>Apply Now</h2></div>
+
+<div class="form-container">
+<form action="https://formspree.io/f/xzdzogkg" method="POST">
+<div class="form-group">
+<label>Full Name</label>
+<input type="text" name="name" required>
+</div>
+
+<div class="form-group">
+<label>Email</label>
+<input type="email" name="email" required>
+</div>
+
+<div class="form-group">
+<label>Phone</label>
+<input type="tel" name="phone" required>
+</div>
+
+<div class="form-group">
+<label>Industry</label>
+<select name="industry" required>
+<option>Film & Television</option>
+<option>Media & Broadcasting</option>
+<option>Marketing</option>
+<option>Creative Development</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Message</label>
+<textarea name="message"></textarea>
+</div>
+
+<button class="btn" type="submit" style="width:100%">Submit Application</button>
+</form>
+</div>
+</section>
+</div>
 
 <footer>
-<img src="https://i.imgur.com/x2v08fp.png" style="height:60px;margin-bottom:20px;">
+<img src="https://i.imgur.com/x2v08fp.png" style="height:60px;margin-bottom:20px">
 <p>© 2024 Universal Studios. All Rights Reserved.</p>
-<p>Protected under applicable international copyright and trademark laws.</p>
 <p>Official Partnership Inquiries: Encrypted.mail@tvstar.com</p>
 </footer>
 
 <script>
-/* Navigation */
+/* Page switching */
 const navLinks=document.querySelectorAll('.nav-link');
 const pages=document.querySelectorAll('.page-container');
 
@@ -328,9 +468,15 @@ window.scrollTo({top:0,behavior:"smooth"});
 });
 
 /* Mobile menu */
-const mobileBtn=document.getElementById('mobileMenuBtn');
-const nav=document.querySelector('nav');
-mobileBtn.onclick=()=>nav.classList.toggle('open');
+document.getElementById('mobileMenuBtn').onclick=()=>{
+document.querySelector('nav').classList.toggle('open');
+};
+
+/* Header shrink */
+window.addEventListener('scroll',()=>{
+document.getElementById('mainHeader')
+.classList.toggle('shrink',window.scrollY>60);
+});
 </script>
 
 </body>
