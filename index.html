@@ -33,6 +33,10 @@ box-sizing:border-box;
 font-family:Montserrat,Segoe UI,sans-serif;
 }
 
+html {
+scroll-behavior: smooth;
+}
+
 body{
 background:linear-gradient(135deg,var(--deep-blue),var(--studio-blue));
 color:var(--white);
@@ -92,6 +96,7 @@ color:white;
 text-decoration:none;
 font-weight:600;
 letter-spacing:.5px;
+transition: color var(--transition);
 }
 
 nav a.active,
@@ -104,26 +109,59 @@ display:none;
 font-size:1.8rem;
 color:var(--gold);
 cursor:pointer;
+background:none;
+border:none;
 }
 
 /* Mobile nav */
 @media(max-width:768px){
-.mobile-menu-toggle{display:block;}
-nav{
-position:fixed;
-top:70px;
-right:-100%;
-width:75%;
-height:calc(100vh - 70px);
-background:linear-gradient(145deg,rgba(6,20,46,.98),rgba(0,0,0,.95));
-transition:right .4s ease;
-padding-top:30px;
+.header-content {
+  padding: 8px 15px;
 }
+
+.logo {
+  height: 40px;
+}
+
+.mobile-menu-toggle{
+  display:block;
+}
+
+nav{
+  position:fixed;
+  top:70px;
+  right:-100%;
+  width:75%;
+  height:calc(100vh - 70px);
+  background:linear-gradient(145deg,rgba(6,20,46,.98),rgba(0,0,0,.95));
+  transition:right .4s ease;
+  padding-top:30px;
+  z-index:1000;
+}
+
 nav.open{right:0;}
+
 nav ul{
-flex-direction:column;
-align-items:center;
-gap:25px;
+  flex-direction:column;
+  align-items:center;
+  gap:25px;
+}
+}
+
+/* Close overlay when nav is active */
+@media(max-width:768px){
+.nav-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.3);
+  display: none;
+}
+
+nav.open + .nav-overlay {
+  display: block;
 }
 }
 
@@ -151,6 +189,7 @@ display:flex;
 align-items:center;
 justify-content:center;
 position:relative;
+padding: 40px 20px;
 }
 
 .hero::after{
@@ -173,17 +212,19 @@ padding:20px;
 }
 
 h1{
-font-size:3rem;
+font-size:clamp(2rem, 5vw, 3rem);
 line-height:1.2;
 background:linear-gradient(to right,var(--light-gold),var(--gold));
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 margin-bottom:20px;
+text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 .subheadline{
-font-size:1.3rem;
+font-size:clamp(1rem, 3vw, 1.3rem);
 opacity:.95;
+margin-bottom: 20px;
 }
 
 /* =====================
@@ -194,13 +235,15 @@ opacity:.95;
 display:inline-block;
 margin-top:25px;
 padding:16px 36px;
-font-size:1.15rem;
+font-size:clamp(1rem, 2.5vw, 1.15rem);
 font-weight:bold;
 background:linear-gradient(to right,var(--gold),var(--dark-gold));
 color:black;
 border-radius:8px;
 text-decoration:none;
 transition:var(--transition);
+border: none;
+cursor: pointer;
 }
 
 .btn:hover,
@@ -227,6 +270,10 @@ background:rgba(0,0,0,.25);
 .section-heading{
 text-align:center;
 margin-bottom:60px;
+}
+
+.section-heading h2 {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
 }
 
 .section-heading:after{
@@ -317,6 +364,24 @@ border-radius:6px;
 border:2px solid rgba(255,255,255,.3);
 background:rgba(255,255,255,.15);
 color:white;
+font-size: 16px; /* Prevents iOS zoom on focus */
+}
+
+input:focus,select:focus,textarea:focus{
+outline:none;
+border-color:var(--gold);
+}
+
+textarea {
+min-height:120px;
+resize:vertical;
+}
+
+/* Mobile form enhancements */
+@media(max-width:768px){
+.form-container {
+  padding: 25px;
+}
 }
 
 /* =====================
@@ -332,6 +397,39 @@ text-align:center;
 footer p{
 opacity:.85;
 font-size:.95rem;
+margin-bottom: 10px;
+}
+
+footer img {
+  height:60px;
+  margin-bottom:20px;
+}
+
+/* Mobile specific improvements */
+@media(max-width:480px){
+.section{
+  padding: 60px 15px;
+}
+  
+.hero {
+  min-height: 70vh;
+  padding: 30px 15px;
+}
+  
+.features-grid {
+  grid-template-columns: 1fr;
+}
+  
+.gallery-container {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+}
+
+/* Fix iOS Safari issues */
+@supports (-webkit-touch-callout: none) {
+.hero {
+  min-height: -webkit-fill-available;
+}
 }
 </style>
 </head>
@@ -352,9 +450,14 @@ font-size:.95rem;
 </ul>
 </nav>
 
-<i class="fas fa-bars mobile-menu-toggle" id="mobileMenuBtn"></i>
+<button class="mobile-menu-toggle" id="mobileMenuBtn">
+  <i class="fas fa-bars"></i>
+</button>
 </div>
 </header>
+
+<!-- Mobile nav overlay (closes menu when clicked) -->
+<div class="nav-overlay" id="navOverlay"></div>
 
 <!-- HOME -->
 <div id="home-page" class="page-container active">
@@ -363,6 +466,25 @@ font-size:.95rem;
 <h1>Universal Studios Professional Partnership Program</h1>
 <p class="subheadline">Verified recognition. Global credibility. Hollywood-level opportunities.</p>
 <a href="#apply-page" class="cta-btn">Begin Your Journey</a>
+</div>
+</section>
+
+<!-- Features Section - Newly Added -->
+<section class="section alt">
+<div class="section-heading"><h2>Exclusive Benefits</h2></div>
+<div class="features-grid">
+<div class="feature-card">
+<h4>Official Recognition</h4>
+<p>Verified partnership certification and global credibility with our prestigious brand.</p>
+</div>
+<div class="feature-card">
+<h4>Networking Opportunities</h4>
+<p>Access to exclusive industry events and professional connections with major players.</p>
+</div>
+<div class="feature-card">
+<h4>Marketing Support</h4>
+<p>Leverage our extensive marketing resources and platforms for maximum visibility.</p>
+</div>
 </div>
 </section>
 </div>
@@ -375,6 +497,25 @@ font-size:.95rem;
 <p class="subheadline">A professional recognition initiative inspired by studio excellence</p>
 </div>
 </section>
+
+<!-- About Content - Newly Added -->
+<section class="section">
+<div class="section-heading"><h2>The Program</h2></div>
+<div class="features-grid">
+<div class="feature-card">
+<h4>Heritage of Excellence</h4>
+<p>Built on Universal Studios' legacy of creativity, innovation, and entertainment excellence spanning decades.</p>
+</div>
+<div class="feature-card">
+<h4>Global Network</h4>
+<p>Connect with industry leaders and like-minded professionals worldwide through our platform.</p>
+</div>
+<div class="feature-card">
+<h4>Mutual Growth</h4>
+<p>Our partnerships are designed for mutual success and long-term relationship building.</p>
+</div>
+</div>
+</section>
 </div>
 
 <!-- PARTNERSHIP -->
@@ -385,10 +526,36 @@ font-size:.95rem;
 <p class="subheadline">Strategic collaboration, visibility, and long-term value</p>
 </div>
 </section>
+
+<!-- Partnership Content - Newly Added -->
+<section class="section">
+<div class="section-heading"><h2>Partnership Tiers</h2></div>
+<div class="features-grid">
+<div class="feature-card">
+<h4>Bronze Level</h4>
+<p>Basic recognition package with digital credentials and newsletter access.</p>
+</div>
+<div class="feature-card">
+<h4>Silver Level</h4>
+<p>Expanded benefits including event invitations and promotional support.</p>
+</div>
+<div class="feature-card">
+<h4>Gold Level</h4>
+<p>Premium partnership with full benefits, priority consideration, and dedicated support.</p>
+</div>
+</div>
+</section>
 </div>
 
 <!-- GALLERY -->
 <div id="gallery-page" class="page-container">
+<section class="hero" style="background-image:url('https://i.imgur.com/N0Hw9Yo.jpeg')">
+<div class="hero-content">
+<h1>Experience Universal</h1>
+<p class="subheadline">Through the eyes of our partners and events</p>
+</div>
+</section>
+
 <section class="section alt">
 <div class="section-heading"><h2>Gallery</h2></div>
 <div class="gallery-container">
@@ -404,6 +571,13 @@ font-size:.95rem;
 
 <!-- APPLY -->
 <div id="apply-page" class="page-container">
+<section class="hero" style="background-image:url('https://i.imgur.com/tcX0B1B.jpeg')">
+<div class="hero-content">
+<h1>Join Our Partnership Program</h1>
+<p class="subheadline">Begin your journey with Universal Studios today</p>
+</div>
+</section>
+
 <section class="section">
 <div class="section-heading"><h2>Apply Now</h2></div>
 
@@ -427,6 +601,7 @@ font-size:.95rem;
 <div class="form-group">
 <label>Industry</label>
 <select name="industry" required>
+<option value="">Select Your Industry</option>
 <option>Film & Television</option>
 <option>Media & Broadcasting</option>
 <option>Marketing</option>
@@ -436,7 +611,7 @@ font-size:.95rem;
 
 <div class="form-group">
 <label>Message</label>
-<textarea name="message"></textarea>
+<textarea name="message" placeholder="Tell us about your interest in our partnership program"></textarea>
 </div>
 
 <button class="btn" type="submit" style="width:100%">Submit Application</button>
@@ -453,29 +628,64 @@ font-size:.95rem;
 
 <script>
 /* Page switching */
-const navLinks=document.querySelectorAll('.nav-link');
-const pages=document.querySelectorAll('.page-container');
+const navLinks = document.querySelectorAll('.nav-link');
+const pages = document.querySelectorAll('.page-container');
 
-navLinks.forEach(link=>{
-link.addEventListener('click',e=>{
-e.preventDefault();
-navLinks.forEach(l=>l.classList.remove('active'));
-pages.forEach(p=>p.classList.remove('active'));
-link.classList.add('active');
-document.querySelector(link.getAttribute('href')).classList.add('active');
-window.scrollTo({top:0,behavior:"smooth"});
-});
+navLinks.forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const targetPage = link.getAttribute('href');
+    
+    navLinks.forEach(l => l.classList.remove('active'));
+    pages.forEach(p => p.classList.remove('active'));
+    
+    link.classList.add('active');
+    document.querySelector(targetPage).classList.add('active');
+    
+    // Close mobile menu on navigation
+    if (window.innerWidth <= 768) {
+      document.querySelector('nav').classList.remove('open');
+      document.getElementById('navOverlay').style.display = 'none';
+    }
+    
+    window.scrollTo({top:0,behavior:"smooth"});
+  });
 });
 
-/* Mobile menu */
-document.getElementById('mobileMenuBtn').onclick=()=>{
-document.querySelector('nav').classList.toggle('open');
+/* Mobile menu functionality */
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const navOverlay = document.getElementById('navOverlay');
+
+mobileMenuBtn.onclick = () => {
+  const nav = document.querySelector('nav');
+  nav.classList.toggle('open');
+  
+  // Show/hide overlay
+  if (nav.classList.contains('open')) {
+    navOverlay.style.display = 'block';
+  } else {
+    navOverlay.style.display = 'none';
+  }
 };
 
+// Close menu when overlay is clicked
+navOverlay.addEventListener('click', () => {
+  document.querySelector('nav').classList.remove('open');
+  navOverlay.style.display = 'none';
+});
+
+// Close menu on window resize if it exceeds mobile breakpoint
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 768) {
+    document.querySelector('nav').classList.remove('open');
+    navOverlay.style.display = 'none';
+  }
+});
+
 /* Header shrink */
-window.addEventListener('scroll',()=>{
-document.getElementById('mainHeader')
-.classList.toggle('shrink',window.scrollY>60);
+window.addEventListener('scroll',() => {
+  document.getElementById('mainHeader')
+  .classList.toggle('shrink', window.scrollY > 60);
 });
 </script>
 
